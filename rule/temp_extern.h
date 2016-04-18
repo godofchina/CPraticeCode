@@ -1,0 +1,1 @@
+char a[20] = {"asasasas"};
