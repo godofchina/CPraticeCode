@@ -2,5 +2,8 @@
 
 int main(int argc, char **argv)
 {
-    printf("Hello, nj");
+    int i = 2;
+    char j;
+    j = i;
+    printf("Hello, nj, %d\n", j);
 }

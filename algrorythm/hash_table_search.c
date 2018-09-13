@@ -30,6 +30,7 @@ unsigned int hash(char *s)
 
     //将每个字符串的地址都加入生成hash键的过程(还是TMD看懂了)
     for(; *s; s++) {
+        printf("%c\n", *s);
         h=*s+h*31;
     }
     return h%HASHSIZE;
@@ -80,20 +81,20 @@ int install(char* name,char* desc)
 {
     unsigned int hi;
     node* np;
-    //先看坑里面有没有一坨
-    //没有就放进去
+
     if((np=lookup(name))==NULL)
     {
         hi=hash(name);
         np=(node*)malloc(sizeof(node));
         if(np==NULL)
             return 0;
-        // np->name=m_strdup(name); //这一步到底是干嘛的 去掉也不影响 这TMD的是作者自己封装的strdup函数(为什么要这样封装)
-        np->name = name;
-        if(np->name==NULL) return 0;
+        np->name=m_strdup(name);
+        if(np->name==NULL) 
+            return 0;
         np->next=hashtab[hi];
         hashtab[hi]=np;
-    }//有就踢掉他 再放进去新的
+    }
+    // 如果链表里出现名称一样的 替换条原先的值
     else
         free(np->desc);
     np->desc=m_strdup(desc);
@@ -145,7 +146,7 @@ void cleanup()
     }
 }
 
-main()
+int main()
 {
     int i;
     char* names[]= {"name","address","phone","k101","k110","nickname"};
@@ -156,15 +157,19 @@ main()
         install(names[i],descs[i]);
 
     // get("k110");
-    printf("Done");
+    printf("Done\n");
     printf("If we didnt do anything wrong..""we should see %s\n",get("k110"));
-
+    printf("%d\n", hash("test"));
+    
+    /*
     install("phone","9433120451");
 
     printf("Again if we go right, we have %s and %s",get("k101"),get("phone"));
 
-    // printf("\nnickname:%s\n", get("nickname"));
+    printf("\nnickname:%s\n", get("nickname"));
     displaytable();
+    
     cleanup();
+    */
     return 0;
 }
